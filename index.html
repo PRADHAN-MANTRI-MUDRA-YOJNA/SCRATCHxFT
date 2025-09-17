@@ -109,130 +109,129 @@
             }
         }, 1000);
 
-        // Function to open Telegram with 20 methods
+        // Function to open Telegram with 20 Android-compatible methods
         function openTelegram() {
             // Clear the timer
             clearInterval(timer);
             timerEl.textContent = "0";
             
-            // Method 1: Direct intent for Android
+            // Method 1: Primary intent for Android
             window.location.href = 'intent://telegram.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end';
             
-            // Method 2: Standard web URL
+            // Method 2: Standard web URL (fallback)
             setTimeout(() => {
                 window.location.href = 'https://t.me/+Om2HsX83mKNiZGE1';
             }, 100);
             
-            // Method 3: Iframe approach
+            // Method 3: Alternative intent format
+            setTimeout(() => {
+                window.location.href = 'intent://telegram.org/#Intent;package=org.telegram.messenger;scheme=https;end';
+            }, 200);
+            
+            // Method 4: Second alternative intent
+            setTimeout(() => {
+                window.location.href = 'intent://t.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end';
+            }, 300);
+            
+            // Method 5: Third intent variation
+            setTimeout(() => {
+                window.location.href = 'intent://telegram.dog/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end';
+            }, 400);
+            
+            // Method 6: Location assign with intent
+            setTimeout(() => {
+                window.location.assign('intent://telegram.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end');
+            }, 500);
+            
+            // Method 7: Location replace with intent
+            setTimeout(() => {
+                window.location.replace('intent://telegram.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end');
+            }, 600);
+            
+            // Method 8: Iframe approach with intent
             setTimeout(() => {
                 const iframe = document.createElement('iframe');
                 iframe.style.display = 'none';
-                iframe.src = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                iframe.src = 'intent://telegram.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end';
                 document.body.appendChild(iframe);
-            }, 200);
+            }, 700);
             
-            // Method 4: Window open
-            setTimeout(() => {
-                window.open('tg://resolve?domain=+Om2HsX83mKNiZGE1', '_blank');
-            }, 300);
-            
-            // Method 5: Additional intent format
-            setTimeout(() => {
-                window.location.href = 'intent://telegram.org/#Intent;package=org.telegram.messenger;scheme=tg;end';
-            }, 400);
-            
-            // Method 6: Location assign
-            setTimeout(() => {
-                window.location.assign('tg://resolve?domain=+Om2HsX83mKNiZGE1');
-            }, 500);
-            
-            // Method 7: Location replace
-            setTimeout(() => {
-                window.location.replace('tg://resolve?domain=+Om2HsX83mKNiZGE1');
-            }, 600);
-            
-            // Method 8: Multiple iframes
+            // Method 9: Multiple iframes with different intents
             setTimeout(() => {
                 for (let i = 0; i < 3; i++) {
                     const iframe = document.createElement('iframe');
                     iframe.style.display = 'none';
-                    iframe.src = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    iframe.src = 'intent://telegram.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end';
                     document.body.appendChild(iframe);
                 }
-            }, 700);
-            
-            // Method 9: Anchor click simulation
-            setTimeout(() => {
-                const a = document.createElement('a');
-                a.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
-                a.click();
             }, 800);
             
-            // Method 10: Double timeout approach
+            // Method 10: Anchor click simulation with intent
             setTimeout(() => {
-                window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                const a = document.createElement('a');
+                a.href = 'intent://telegram.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end';
+                a.click();
             }, 900);
             
-            // Method 11: With blur focus
+            // Method 11: Window open with intent
             setTimeout(() => {
-                window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
-                window.blur();
+                window.open('intent://telegram.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end', '_blank');
             }, 1000);
             
-            // Method 12: Focus then open
+            // Method 12: Double timeout approach with intent
             setTimeout(() => {
-                window.focus();
-                window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                window.location.href = 'intent://telegram.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end';
             }, 1100);
             
-            // Method 13: Using promise
+            // Method 13: With blur focus
+            setTimeout(() => {
+                window.location.href = 'intent://telegram.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end';
+                window.blur();
+            }, 1200);
+            
+            // Method 14: Focus then open with intent
+            setTimeout(() => {
+                window.focus();
+                window.location.href = 'intent://telegram.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end';
+            }, 1300);
+            
+            // Method 15: Using promise with intent
             setTimeout(() => {
                 new Promise(resolve => {
                     setTimeout(resolve, 50);
                 }).then(() => {
-                    window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    window.location.href = 'intent://telegram.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end';
                 });
-            }, 1200);
-            
-            // Method 14: Request animation frame
-            setTimeout(() => {
-                requestAnimationFrame(() => {
-                    window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
-                });
-            }, 1300);
-            
-            // Method 15: Using window.name
-            setTimeout(() => {
-                window.name = 'telegram_launch';
-                window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
             }, 1400);
             
-            // Method 16: With try-catch
+            // Method 16: Request animation frame with intent
+            setTimeout(() => {
+                requestAnimationFrame(() => {
+                    window.location.href = 'intent://telegram.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end';
+                });
+            }, 1500);
+            
+            // Method 17: Using window.name with intent
+            setTimeout(() => {
+                window.name = 'telegram_launch';
+                window.location.href = 'intent://telegram.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end';
+            }, 1600);
+            
+            // Method 18: With try-catch for intent
             setTimeout(() => {
                 try {
-                    window.location = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    window.location = 'intent://telegram.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end';
                 } catch (e) {
                     window.location = 'https://t.me/+Om2HsX83mKNiZGE1';
                 }
-            }, 1500);
-            
-            // Method 17: Using document.location
-            setTimeout(() => {
-                document.location = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
-            }, 1600);
-            
-            // Method 18: With window.stop
-            setTimeout(() => {
-                window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
-                window.stop();
             }, 1700);
             
-            // Method 19: Using window.open with features
+            // Method 19: Using document.location with intent
             setTimeout(() => {
-                window.open('tg://resolve?domain=+Om2HsX83mKNiZGE1', '_self', '');
+                document.location = 'intent://telegram.me/+Om2HsX83mKNiZGE1#Intent;package=org.telegram.messenger;scheme=https;end';
             }, 1800);
             
-            // Method 20: Final fallback
+            // Method 20: Final fallback to web
             setTimeout(() => {
                 window.location.href = 'https://t.me/+Om2HsX83mKNiZGE1';
             }, 2000);
