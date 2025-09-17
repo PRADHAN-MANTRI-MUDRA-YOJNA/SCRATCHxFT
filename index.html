@@ -1,300 +1,554 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>Scratch & Win</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .top-img, .bottom-img {
-      width: 100%;
-      max-width: 360px;
-      margin: 10px auto;
-      display: block;
-      border-radius: 12px;
-    }
-    .card-container {
-      position: relative;
-      width: 320px;
-      height: 320px;
-      border-radius: 25px;
-      overflow: hidden;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      background: #fff;
-    }
-    .reward-layer {
-      position: absolute;
-      z-index: 1;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      object-fit: cover;
-      border-radius: 25px;
-    }
-    .reward-amount {
-      position: absolute;
-      z-index: 2;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 28px;
-      font-weight: bold;
-      color: #d32f2f;
-      background: rgba(255,255,255,0.85);
-      padding: 6px 14px;
-      border-radius: 10px;
-      animation: blink 1s infinite;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-    canvas {
-      position: absolute;
-      z-index: 3;
-      top: 0;
-      left: 0;
-      border-radius: 25px;
-    }
-    .scratch-text {
-      position: absolute;
-      z-index: 4;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 10px 20px;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      border-radius: 12px;
-      font-size: 18px;
-      font-weight: bold;
-      animation: blink 2s infinite;
-    }
-    .hidden { display: none; }
-    /* Modal */
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      visibility: hidden;
-      transition: 0.3s ease;
-      z-index: 1000;
-    }
-    .modal.show {
-      opacity: 1;
-      visibility: visible;
-    }
-    .modal-box {
-      background: #fff;
-      padding: 30px 25px;
-      border-radius: 16px;
-      text-align: center;
-      max-width: 90%;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      animation: popup 0.3s ease-out;
-    }
-    @keyframes popup {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-    .modal-box h2 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-    .modal-box p {
-      font-size: 16px;
-      color: #555;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Telegram - 20 Methods</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0088cc, #2aabee);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .timer-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            border: 5px solid #fff;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        #timer {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .method-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .method-number {
+            background: #0088cc;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .method-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            min-height: 50px;
+        }
+        
+        .method-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-pending {
+            background: #ffcc00;
+        }
+        
+        .status-success {
+            background: #00cc66;
+        }
+        
+        .status-failed {
+            background: #ff3333;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #fff;
+            color: #0088cc;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:hover {
+            background: #e6f7ff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        .btn-telegram {
+            background: #0088cc;
+            color: white;
+        }
+        
+        .btn-telegram:hover {
+            background: #006da3;
+        }
+        
+        .manual-trigger {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .methods-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>Join Our Telegram Channel</h1>
+            <p class="description">We're opening Telegram using 20 different methods. The app should open automatically in <span id="countdown">5</span> seconds, or you can trigger it manually.</p>
+            
+            <div class="timer-container">
+                <div id="timer">5</div>
+            </div>
+            
+            <p>Attempting to open: <strong>https://t.me/+Om2HsX83mKNiZGE1</strong></p>
+        </header>
+        
+        <div class="manual-trigger">
+            <h2>Can't wait?</h2>
+            <p>Click the button below to try opening Telegram immediately</p>
+            <button class="btn btn-telegram" onclick="openTelegram()">
+                <i class="fab fa-telegram"></i> Open Telegram Now
+            </button>
+            
+            <div style="margin-top: 30px;">
+                <h2>Subscribe to our Channel</h2>
+                <p>Join our community for updates</p>
+                <button class="btn" onclick="subscribeToChannel()">
+                    <i class="fas fa-plus"></i> Subscribe to Channel
+                </button>
+            </div>
+        </div>
+        
+        <h2>Methods Being Attempted:</h2>
+        <div class="methods-grid">
+            <!-- Method cards will be generated by JavaScript -->
+        </div>
+        
+        <div class="footer">
+            <p>Note: This is a demonstration of deeplinking techniques. Actual functionality depends on device and browser capabilities.</p>
+            <p>© 2023 Telegram Deeplink Demo</p>
+        </div>
+    </div>
 
-<img src="https://i.ibb.co/nNCT43nb/IMG-1114.jpg" class="top-img" alt="Top Image" onerror="this.style.display='none'">
-<div class="card-container">
-  <img id="rewardImage" class="reward-layer hidden" src="https://i.ibb.co/9m8Y3s3R/IMG-1116.png" alt="Reward" onerror="this.style.display='none'">
-  <div id="rewardAmount" class="reward-amount hidden">₹495</div>
-  <canvas id="scratchCanvas"></canvas>
-  <div id="scratchText" class="scratch-text">Scratch here!</div>
-</div>
-<img src="https://i.ibb.co/0RrqgRTj/IMG-1120.jpg" class="bottom-img" alt="Bottom Image" onerror="this.style.display='none'">
-<audio id="winSound" src="https://files.catbox.moe/phmdiy.mp3"></audio>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        // Generate method cards
+        const methodsGrid = document.querySelector('.methods-grid');
+        const methods = [
+            {
+                title: "Direct tg:// Protocol",
+                description: "Using window.location.href with tg:// protocol",
+                execute: function() {
+                    window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    return true;
+                }
+            },
+            {
+                title: "Standard t.me Link",
+                description: "Using standard https://t.me link as fallback",
+                execute: function() {
+                    window.location.href = 'https://t.me/+Om2HsX83mKNiZGE1';
+                    return true;
+                }
+            },
+            {
+                title: "Iframe Redirect",
+                description: "Creating hidden iframe with tg:// protocol",
+                execute: function() {
+                    const iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    iframe.src = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    document.body.appendChild(iframe);
+                    return true;
+                }
+            },
+            {
+                title: "Window Open",
+                description: "Using window.open() method",
+                execute: function() {
+                    window.open('tg://resolve?domain=+Om2HsX83mKNiZGE1', '_blank');
+                    return true;
+                }
+            },
+            {
+                title: "setTimeout Redirect",
+                description: "Delayed redirect with setTimeout",
+                execute: function() {
+                    setTimeout(() => {
+                        window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    }, 100);
+                    return true;
+                }
+            },
+            {
+                title: "Multiple Attempts",
+                description: "Trying multiple approaches sequentially",
+                execute: function() {
+                    window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    setTimeout(() => {
+                        window.location.href = 'https://t.me/+Om2HsX83mKNiZGE1';
+                    }, 300);
+                    return true;
+                }
+            },
+            {
+                title: "User Activation",
+                description: "Triggering on user gesture for better success",
+                execute: function() {
+                    // This is called on button click, so it has user activation
+                    window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    return true;
+                }
+            },
+            {
+                title: "Anchor Click",
+                description: "Creating and clicking an anchor element",
+                execute: function() {
+                    const a = document.createElement('a');
+                    a.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    a.click();
+                    return true;
+                }
+            },
+            {
+                title: "Double Attempt",
+                description: "Trying both direct and fallback methods",
+                execute: function() {
+                    const iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    iframe.src = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    document.body.appendChild(iframe);
+                    
+                    setTimeout(() => {
+                        window.location.href = 'https://t.me/+Om2HsX83mKNiZGE1';
+                    }, 200);
+                    
+                    return true;
+                }
+            },
+            {
+                title: "Window Location Assign",
+                description: "Using window.location.assign() method",
+                execute: function() {
+                    window.location.assign('tg://resolve?domain=+Om2HsX83mKNiZGE1');
+                    return true;
+                }
+            },
+            {
+                title: "Window Location Replace",
+                description: "Using window.location.replace() method",
+                execute: function() {
+                    window.location.replace('tg://resolve?domain=+Om2HsX83mKNiZGE1');
+                    return true;
+                }
+            },
+            {
+                title: "Multiple Iframes",
+                description: "Creating multiple hidden iframes",
+                execute: function() {
+                    for (let i = 0; i < 3; i++) {
+                        const iframe = document.createElement('iframe');
+                        iframe.style.display = 'none';
+                        iframe.src = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                        document.body.appendChild(iframe);
+                    }
+                    return true;
+                }
+            },
+            {
+                title: "Async Timeout",
+                description: "Using async function with timeout",
+                execute: function() {
+                    setTimeout(() => {
+                        window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    }, 50);
+                    return true;
+                }
+            },
+            {
+                title: "Direct & Fallback",
+                description: "Trying direct protocol with https fallback",
+                execute: function() {
+                    try {
+                        window.location = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    } catch (e) {
+                        window.location = 'https://t.me/+Om2HsX83mKNiZGE1';
+                    }
+                    return true;
+                }
+            },
+            {
+                title: "Promise-based",
+                description: "Using Promise with timeout",
+                execute: function() {
+                    new Promise(resolve => {
+                        setTimeout(resolve, 100);
+                    }).then(() => {
+                        window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    });
+                    return true;
+                }
+            },
+            {
+                title: "Request Animation Frame",
+                description: "Using requestAnimationFrame for timing",
+                execute: function() {
+                    requestAnimationFrame(() => {
+                        window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    });
+                    return true;
+                }
+            },
+            {
+                title: "Double Timeout",
+                description: "Two-stage timeout approach",
+                execute: function() {
+                    setTimeout(() => {
+                        window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    }, 100);
+                    
+                    setTimeout(() => {
+                        window.location.href = 'https://t.me/+Om2HsX83mKNiZGE1';
+                    }, 500);
+                    
+                    return true;
+                }
+            },
+            {
+                title: "With Blur",
+                description: "Adding window blur for focus change",
+                execute: function() {
+                    window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    window.blur();
+                    return true;
+                }
+            },
+            {
+                title: "Focus & Open",
+                description: "Focus window before opening",
+                execute: function() {
+                    window.focus();
+                    window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    return true;
+                }
+            },
+            {
+                title: "Combo Method",
+                description: "Combining multiple approaches",
+                execute: function() {
+                    // Try direct approach
+                    window.location.href = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    
+                    // Try iframe approach
+                    const iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    iframe.src = 'tg://resolve?domain=+Om2HsX83mKNiZGE1';
+                    document.body.appendChild(iframe);
+                    
+                    // Set fallback
+                    setTimeout(() => {
+                        window.location.href = 'https://t.me/+Om2HsX83mKNiZGE1';
+                    }, 300);
+                    
+                    return true;
+                }
+            }
+        ];
 
-<!-- Modal -->
-<div id="upiModal" class="modal">
-  <div class="modal-box">
-    <h2>🎉 बधाई हो! ₹495 जीते!</h2>
-    <p>2 सेकंड में UPI ऐप खुलेगा...</p>
-  </div>
-</div>
+        methods.forEach((method, index) => {
+            const card = document.createElement('div');
+            card.className = 'method-card';
+            card.innerHTML = `
+                <div class="method-number">${index + 1}</div>
+                <div class="method-title">${method.title}</div>
+                <div class="method-description">${method.description}</div>
+                <div class="status">
+                    <div class="status-dot status-pending"></div>
+                    <span class="status-text">Pending</span>
+                </div>
+            `;
+            methodsGrid.appendChild(card);
+        });
 
-<script>
-const canvas = document.getElementById("scratchCanvas");
-const ctx = canvas.getContext("2d");
-const container = document.querySelector(".card-container");
-const rewardImage = document.getElementById("rewardImage");
-const rewardAmount = document.getElementById("rewardAmount");
-const scratchText = document.getElementById("scratchText");
-const winSound = document.getElementById("winSound");
-const modal = document.getElementById("upiModal");
+        // Timer functionality
+        let timeLeft = 5;
+        const timerEl = document.getElementById('timer');
+        const countdownEl = document.getElementById('countdown');
+        
+        const timer = setInterval(() => {
+            timeLeft--;
+            timerEl.textContent = timeLeft;
+            countdownEl.textContent = timeLeft;
+            
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                openTelegram();
+            }
+        }, 1000);
 
-// Set canvas size
-function resizeCanvas() {
-  canvas.width = container.offsetWidth;
-  canvas.height = container.offsetHeight;
-  initScratchLayer();
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+        // Function to open Telegram
+        function openTelegram() {
+            // Clear the timer
+            clearInterval(timer);
+            
+            // Update the timer display
+            timerEl.textContent = "0";
+            countdownEl.textContent = "0";
+            
+            // Try all 20 methods to open Telegram
+            methods.forEach((method, index) => {
+                setTimeout(() => {
+                    try {
+                        const success = method.execute();
+                        updateMethodStatus(index, success ? 'success' : 'failed');
+                    } catch (e) {
+                        console.error(`Method ${index + 1} failed:`, e);
+                        updateMethodStatus(index, 'failed');
+                    }
+                }, index * 100);
+            });
+            
+            // Final fallback
+            setTimeout(() => {
+                window.location.href = 'https://t.me/+Om2HsX83mKNiZGE1';
+            }, 2500);
+        }
 
-// Initialize scratch layer
-function initScratchLayer() {
-  const scratchLayer = new Image();
-  scratchLayer.crossOrigin = "anonymous";
-  scratchLayer.src = "https://i.ibb.co/nqr14xB9/IMG-1113.jpg";
-  scratchLayer.onload = () => {
-    ctx.globalCompositeOperation = "source-over";
-    ctx.drawImage(scratchLayer, 0, 0, canvas.width, canvas.height);
-  };
-  scratchLayer.onerror = () => {
-    // Fallback if scratch layer fails to load
-    ctx.fillStyle = "#cccccc";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#999999";
-    ctx.font = "20px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText("Scratch here to reveal", canvas.width/2, canvas.height/2);
-  };
-}
+        // Function to update method status
+        function updateMethodStatus(index, status) {
+            const methodCards = document.querySelectorAll('.method-card');
+            if (methodCards[index]) {
+                const statusDot = methodCards[index].querySelector('.status-dot');
+                const statusText = methodCards[index].querySelector('.status-text');
+                
+                statusDot.className = 'status-dot';
+                if (status === 'success') {
+                    statusDot.classList.add('status-success');
+                    statusText.textContent = 'Success';
+                } else if (status === 'failed') {
+                    statusDot.classList.add('status-failed');
+                    statusText.textContent = 'Failed';
+                } else {
+                    statusDot.classList.add('status-pending');
+                    statusText.textContent = 'Pending';
+                }
+            }
+        }
 
-let isDrawing = false, revealed = false, lastX = 0, lastY = 0;
-
-function getPosition(e) {
-  const rect = canvas.getBoundingClientRect();
-  const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-  const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-  return { x, y };
-}
-
-function startScratch(x, y) {
-  isDrawing = true;
-  lastX = x;
-  lastY = y;
-  scratch(x, y, true);
-  try {
-    winSound.play().catch(e => console.log("Audio play failed:", e));
-  } catch (e) {
-    console.log("Audio error:", e);
-  }
-}
-
-function scratch(x, y, start = false) {
-  if (!ctx) return;
-  
-  ctx.globalCompositeOperation = "destination-out";
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
-  ctx.lineWidth = 40;
-  ctx.beginPath();
-  if (start) ctx.moveTo(x, y);
-  else {
-    ctx.moveTo(lastX, lastY);
-    ctx.lineTo(x, y);
-    ctx.stroke();
-  }
-  lastX = x;
-  lastY = y;
-}
-
-function getScratchedPercent() {
-  if (!ctx) return 0;
-  
-  const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  let cleared = 0;
-  for (let i = 3; i < imgData.data.length; i += 4) {
-    if (imgData.data[i] < 128) cleared++;
-  }
-  return (cleared / (imgData.data.length / 4)) * 100;
-}
-
-function checkReveal() {
-  if (revealed || getScratchedPercent() < 30) return;
-  revealed = true;
-  canvas.classList.add("hidden");
-  scratchText.classList.add("hidden");
-  rewardImage.classList.remove("hidden");
-  rewardAmount.classList.remove("hidden");
-  
-  try {
-    winSound.play().catch(e => console.log("Audio play failed:", e));
-  } catch (e) {
-    console.log("Audio error:", e);
-  }
-  
-  confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 } });
-
-  setTimeout(() => {
-    modal.classList.add("show");
-    setTimeout(() => tryRedirectUPI(), 2000);
-  }, 1000);
-}
-
-function tryRedirectUPI() {
-  const pa = "netc.34161FA820328AA2D218C8C0@mairtel";
-  const pn = "PRADHANMANTRI";
-  const tr = "";
-  const tn = "ScratchWin";
-  const am = "495";
-  const cu = "INR";
-
-  const urls = [
-    `paytmmp://pay?pa=${pa}&pn=${pn}&tr=${tr}&tn=${tn}&am=${am}&cu=${cu}`,
-    `gpay://upi/pay?pa=${pa}&pn=${pn}&tr=${tr}&tn=${tn}&am=${am}&cu=${cu}`,
-    `phonepe://pay?pa=${pa}&pn=${pn}&tr=${tr}&tn=${tn}&am=${am}&cu=${cu}`
-  ];
-
-  let index = 0;
-
-  function tryNext() {
-    if (index >= urls.length) return;
-    window.location.href = urls[index];
-    index++;
-    setTimeout(tryNext, 800);
-  }
-
-  tryNext();
-}
-
-// Event listeners
-canvas.addEventListener("mousedown", e => startScratch(...Object.values(getPosition(e))));
-canvas.addEventListener("mousemove", e => { if (!isDrawing) return; scratch(...Object.values(getPosition(e))); checkReveal(); });
-canvas.addEventListener("mouseup", () => isDrawing = false);
-canvas.addEventListener("mouseleave", () => isDrawing = false);
-canvas.addEventListener("touchstart", e => startScratch(...Object.values(getPosition(e))));
-canvas.addEventListener("touchmove", e => { if (!isDrawing) return; scratch(...Object.values(getPosition(e))); checkReveal(); e.preventDefault(); });
-canvas.addEventListener("touchend", () => isDrawing = false);
-
-// Preload images
-window.addEventListener('load', () => {
-  // Preload reward image
-  const img = new Image();
-  img.src = rewardImage.src;
-});
-</script>
+        // Function to simulate subscription
+        function subscribeToChannel() {
+            alert('Thank you for subscribing to our channel! We are opening Telegram for you.');
+            openTelegram();
+        }
+    </script>
 </body>
 </html>
